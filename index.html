@@ -27,9 +27,9 @@
     $(function () {
         'use strict';
         var mydata = [
-                { id: "1", S_name: "蔡英文", P_name: "馬英九", C_name: "賴清德", School: "中臺幼兒園", Grade: "幼兒園", address: "台中市1巷2號3樓", phone: "0412345678", content: "送我一棟豪宅", Payment: "匯款", number: "101", date: "2018-07-01", total: "210.00" },
-                { id: "2", S_name: "陳水扁", P_name: "段宜康", C_name: "黃國昌", School: "中臺幼兒園", Grade: "幼兒園", address: "台中市3巷2號1樓", phone: "0412345678", content: "送我一棟豪宅", Payment: "匯款", number: "102", date: "2018-07-02", total: "210.00" },
-                { id: "3", S_name: "顧立雄", P_name: "林佳龍", C_name: "柯文哲", School: "中臺幼兒園", Grade: "幼兒園", address: "台中市4巷5號6樓", phone: "0412345678", content: "送我一棟豪宅", Payment: "匯款", number: "103", date: "2018-07-03", total: "210.00" },
+                { id: "1", S_name: "蔡英文", P_name: "馬英九", C_name: "賴清德", School: "中臺幼兒園", Grade: "", address: "", area:"XX區XX路XX號XX樓", phone: "0412345678", content: "送我一棟豪宅", Payment: "匯款", number: "48", date: "2018-07-01", total: "196000" },
+                { id: "2", S_name: "陳水扁", P_name: "段宜康", C_name: "黃國昌", School: "中臺幼兒園", Grade: "", address: "", area:"XX區XX路XXX號XX樓",phone: "0412345678", content: "送我一棟豪宅", Payment: "匯款", number: "48", date: "2018-07-02", total: "196000" },
+                { id: "3", S_name: "顧立雄", P_name: "林佳龍", C_name: "柯文哲", School: "中臺幼兒園", Grade: "", address: "", area:"XX區XX路XX號XX樓",phone: "0412345678", content: "送我一棟豪宅", Payment: "匯款", number: "48", date: "2018-07-03", total: "196000" },
             ],
             $grid = $("#list"),
             initDateEdit = function (elem) {
@@ -61,26 +61,31 @@
             editurl: 'Service.ashx?type=editdata',
             data: mydata,
             datatype: "local",
-                colNames: ['ID',  '學生姓名', '家長姓名', '兄弟姐妹', '學校', '年級', '地址' ,'電話' , '訂購內容', '付款方式' , '家訪日期', '期數' , '總金額'],
+                colNames: ['筆數',  '學生姓名', '家長姓名', '兄弟姐妹', '學校', '年級', '地區','地址' ,'聯絡方式' , '訂購內容', '付款方式' , '家訪日期', '期數' , '總金額'],
                 colModel: [
                     { name: 'id', index: 'ID', align: 'center', editable: true, width: 30, editrules: {required: true} },
                     { name: 'S_name', index: '學生姓名', align: 'center', width: 55, editable: true, edittype: 'textarea' },
                     { name: 'P_name', index: '家長姓名', align: 'center', width: 55, editable: true, edittype: 'textarea' },
                     { name: 'C_name', index: '兄弟姐妹', align: 'center', width: 55, editable: true, edittype: 'textarea' },
-                    { name: 'School', index: '學校', align: 'center', width: 100, editable: true, edittype: 'textarea' },
-                    { name: 'Grade', index: '年級', align: 'center', width: 40, editable: true, edittype: 'textarea' },
-                    { name: 'address', index: '地址', align: 'center', width: 120, editable: true, edittype: 'textarea' },
-                    { name: 'phone', index: '電話', align: 'center', width: 70, editable: true, edittype: 'textarea' },
+                    { name: 'School', index: '學校', align: 'center', width: 70, editable: true, edittype: 'textarea' },
+                    { name: 'Grade', index: '年級', align: 'center', width: 30, editable: true, formatter: 'select',
+                        edittype: 'select', editoptions: { value: 'AA:一;BB:二;CC:三;DD:四;EE:五;FF:六;GG:七;HH:八;II:九', defaultValue: 'IN' },
+                        stype: 'select', searchoptions: { sopt: ['eq', 'ne'], value: 'AA:一;BB:二;CC:三;DD:四;EE:五;FF:六;GG:七;HH:八;II:九' } },
+                    { name: 'address', index: '地區', align: 'center', width: 40, editable: true, formatter: 'select',
+                        edittype: 'select', editoptions: { value: 'AAA:臺北;BBB:新北;CCC:基隆;DDD:桃園;EEE:新竹;FFF:苗栗;GGG:臺中;HHH:彰化;III:南投;JJJ:雲林;KKK:嘉義;LLL:臺南;MMM:高雄;NNN:屏東;OOO:宜蘭;PPP:花蓮;QQQ:臺東;RRR:澎湖;SSS:金門;TTT:馬祖', defaultValue: 'IN' },
+                        stype: 'select', searchoptions: { sopt: ['eq', 'ne'], value: 'AAA:臺北;BBB:新北;CCC:基隆;DDD:桃園;EEE:新竹;FFF:苗栗;GGG:臺中;HHH:彰化;III:南投;JJJ:雲林;KKK:嘉義;LLL:臺南;MMM:高雄;NNN:屏東;OOO:宜蘭;PPP:花蓮;QQQ:臺東;RRR:澎湖;SSS:金門;TTT:馬祖' } },
+                    { name: 'area', index: '地址', align: 'center', width: 250, editable: true, edittype: 'textarea' },
+                    { name: 'phone', index: '聯絡方式', align: 'center', width: 90, editable: true, edittype: 'textarea' },
                     { name: 'content', index: '訂購內容', align: 'center', width: 120, editable: true, edittype: 'textarea' },
-                    { name: 'Payment', index: '付款方式', align: 'center', width: 65, align: 'center', editable: true, formatter: 'select',
-                        edittype: 'select', editoptions: { value: 'TF:匯款;CS:現金;CH:支票', defaultValue: 'IN' },
-                        stype: 'select', searchoptions: { sopt: ['eq', 'ne'], value: ':Any;TF:匯款;CS:現金;CH:支票' } },
+                    { name: 'Payment', index: '付款方式', align: 'center', width: 70, align: 'center', editable: true, formatter: 'select',
+                        edittype: 'select', editoptions: { value: 'TF:匯款;CS:現金;CH:支票;CA:分期', defaultValue: 'IN' },
+                        stype: 'select', searchoptions: { sopt: ['eq', 'ne'], value: ':Any;TF:匯款;CS:現金;CH:支票;CA:分期' } },
                     { name: 'date', index: '家訪日期', align: 'center', width: 70, align: 'center', sorttype: 'date',
                         formatter: 'date', formatoptions: { newformat: 'd-M-Y' }, editable: true, datefmt: 'd-M-Y',
                         editoptions: { dataInit: initDateEdit },
                         searchoptions: { sopt: ['eq', 'ne', 'lt', 'le', 'gt', 'ge'], dataInit: initDateSearch } },
-                    { name: 'number', index: '期數', align: 'center', width: 60, editable: true, edittype: 'textarea' },
-                    { name: 'total', index: '總金額', align: 'center', width: 80, template: numberTemplate }
+                    { name: 'number', index: '期數', align: 'center', width: 40, editable: true, edittype: 'textarea' },
+                    { name: 'total', index: '總金額', align: 'center', width: 100, editable: true, edittype: 'textarea' }
 
                 ],
             pager: '#pager',
@@ -90,8 +95,8 @@
             sortorder: 'asc',
             viewrecords: true,
             gridview: true,
-            height: "200%",
-            caption: "Report",
+            height: "400%",
+            caption: "客戶資料",
             cellsubmit: 'clientArray',
             cellEdit: true
         });

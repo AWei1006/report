@@ -1,0 +1,142 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Report</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.20/themes/redmond/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-4.4.0/css/ui.jqgrid.css" />
+    <style type="text/css">
+        html, body { font-size: 75%; }
+    </style>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.20/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-4.4.0/js/i18n/grid.locale-en.js"></script>
+    <script type="text/javascript">
+        $.jgrid.no_legacy_api = true;
+        $.jgrid.useJSON = true;
+    </script>
+    <script type="text/javascript" src="js/jquery.jqGrid.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.26/build/pdfmake.min.js">	</script>
+	<script type="text/javascript" language="javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.26/build/vfs_fonts.js"></script>
+    <script type="text/javascript">
+    //<![CDATA[
+    $(function () {
+        'use strict';
+        var mydata = [
+                { id: "1", S_name: "蔡英文", P_name: "馬英九", C_name: "賴清德", School: "中臺幼兒園", Grade: "幼兒園", address: "台中市1巷2號3樓", phone: "0412345678", content: "送我一棟豪宅", Payment: "匯款", number: "101", date: "2018-07-01", total: "210.00" },
+                { id: "2", S_name: "陳水扁", P_name: "段宜康", C_name: "黃國昌", School: "中臺幼兒園", Grade: "幼兒園", address: "台中市3巷2號1樓", phone: "0412345678", content: "送我一棟豪宅", Payment: "匯款", number: "102", date: "2018-07-02", total: "210.00" },
+                { id: "3", S_name: "顧立雄", P_name: "林佳龍", C_name: "柯文哲", School: "中臺幼兒園", Grade: "幼兒園", address: "台中市4巷5號6樓", phone: "0412345678", content: "送我一棟豪宅", Payment: "匯款", number: "103", date: "2018-07-03", total: "210.00" },
+            ],
+            $grid = $("#list"),
+            initDateEdit = function (elem) {
+                $(elem).datepicker({
+                    dateFormat: 'dd-M-yy',
+                    autoSize: true,
+                    changeYear: true,
+                    changeMonth: true,
+                    showButtonPanel: true,
+                    showWeek: true,
+                });
+            },
+            initDateSearch = function (elem) {
+                setTimeout(function () {
+                    $(elem).datepicker({
+                        dateFormat: 'dd-M-yy',
+                        autoSize: true,
+                        changeYear: true,
+                        changeMonth: true,
+                        showWeek: true,
+                        showButtonPanel: true,
+                    });
+                }, 100);
+            },
+            numberTemplate = {formatter: 'number', align: 'right', sorttype: 'number',
+                editrules: {number: true, required: true},
+                searchoptions: { sopt: ['eq', 'ne', 'lt', 'le', 'gt', 'ge', 'nu', 'nn', 'in', 'ni'] }};
+        $grid.jqGrid({
+            editurl: 'Service.ashx?type=editdata',
+            data: mydata,
+            datatype: "local",
+                colNames: ['ID',  '學生姓名', '家長姓名', '兄弟姐妹', '學校', '年級', '地址' ,'電話' , '訂購內容', '付款方式' , '家訪日期', '期數' , '總金額'],
+                colModel: [
+                    { name: 'id', index: 'ID', align: 'center', editable: true, width: 30, editrules: {required: true} },
+                    { name: 'S_name', index: '學生姓名', align: 'center', width: 55, editable: true, edittype: 'textarea' },
+                    { name: 'P_name', index: '家長姓名', align: 'center', width: 55, editable: true, edittype: 'textarea' },
+                    { name: 'C_name', index: '兄弟姐妹', align: 'center', width: 55, editable: true, edittype: 'textarea' },
+                    { name: 'School', index: '學校', align: 'center', width: 100, editable: true, edittype: 'textarea' },
+                    { name: 'Grade', index: '年級', align: 'center', width: 40, editable: true, edittype: 'textarea' },
+                    { name: 'address', index: '地址', align: 'center', width: 120, editable: true, edittype: 'textarea' },
+                    { name: 'phone', index: '電話', align: 'center', width: 70, editable: true, edittype: 'textarea' },
+                    { name: 'content', index: '訂購內容', align: 'center', width: 120, editable: true, edittype: 'textarea' },
+                    { name: 'Payment', index: '付款方式', align: 'center', width: 65, align: 'center', editable: true, formatter: 'select',
+                        edittype: 'select', editoptions: { value: 'TF:匯款;CS:現金;CH:支票', defaultValue: 'IN' },
+                        stype: 'select', searchoptions: { sopt: ['eq', 'ne'], value: ':Any;TF:匯款;CS:現金;CH:支票' } },
+                    { name: 'date', index: '家訪日期', align: 'center', width: 70, align: 'center', sorttype: 'date',
+                        formatter: 'date', formatoptions: { newformat: 'd-M-Y' }, editable: true, datefmt: 'd-M-Y',
+                        editoptions: { dataInit: initDateEdit },
+                        searchoptions: { sopt: ['eq', 'ne', 'lt', 'le', 'gt', 'ge'], dataInit: initDateSearch } },
+                    { name: 'number', index: '期數', align: 'center', width: 60, editable: true, edittype: 'textarea' },
+                    { name: 'total', index: '總金額', align: 'center', width: 80, template: numberTemplate }
+
+                ],
+            pager: '#pager',
+            rowNum: 10,
+            rowList: [5, 10, 20, 50],
+            sortname: 'id',
+            sortorder: 'asc',
+            viewrecords: true,
+            gridview: true,
+            height: "200%",
+            caption: "Report",
+            cellsubmit: 'clientArray',
+            cellEdit: true
+        });
+
+        $grid.jqGrid('navGrid', '#pager');
+        $("#del_list").insertBefore("#add_list");
+        $("#search_list").insertBefore("#del_list");
+        $("#refresh_list").insertBefore("#search_list");
+            //Export to Excel
+   //  $( document ).ready(function() {
+   //  $("#excel").on("click", function(){
+			// $grid.jqGrid("exportToExcel",{
+			// includeLabels : true,
+			// includeGroupHeader : true,
+			// includeFooter: true,
+			// fileName : "jqGridExport.xlsx",
+			// maxlength : 40 // maxlength for visible string data
+			// 	})
+			// })
+   //  $("#pdf").on("click", function(){
+			// $grid.jqGrid("exportToPdf",{
+			// 	title: 'jqGrid Export to PDF',
+			// 	orientation: 'portrait',
+			// 	pageSize: 'A4',
+			// 	description: 'description of the exported document',
+			// 	customSettings: null,
+			// 	download: 'download',
+			// 	includeLabels : true,
+			// 	includeGroupHeader : true,
+			// 	includeFooter: true,
+			// 	fileName : "jqGridExport.pdf"
+			// 	})
+			// })
+    });
+
+    //]]>
+    </script>
+</head>
+
+<body>
+<table id="list"></table>
+<div id="pager"/>
+</div>
+<!-- <button id="excel">Export to Excel</button>
+<button id="pdf">Export to PDF</button>
+ -->
+</body>
+</html>

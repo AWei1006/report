@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+body{
+}
+.codestr{
+	font-size: 12px;
+	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+}
+.codetitle{
+	font-weight: bold;
+	font-size: 14px;
+	margin-top: 36px;
+}
+.notes{
+	font-size: 12px;
+}
